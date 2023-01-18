@@ -2,22 +2,19 @@
 const { response } = require("express")
 const express = require("express")
 const app = express()
-const PORT = 8500
+const PORT = 8000
 const mongoose = require("mongoose")
+const connectDB = require("./config/database")
 const TodoTask = require("./models/TodoTask")
-require('dotenv').config()
+require('dotenv').config({path: './config/.env'})
 
 //Set Middleware
 app.set("view engine", "ejs")
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 
-//Connect to Mongo
-mongoose.connect(
-    process.env.DB_CONNECTION, 
-    { useNewUrlParser: true }, 
-    () => {console.log("Connected to db!")}
-)
+//Load db module in database.js
+connectDB()
 
 //Get method
 app.get("/", async (req, res) => {
